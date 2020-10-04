@@ -77,26 +77,14 @@ def test_tags():
 
 # In the following, test the additional raw mongo 'query' keyword.
 def test_direct_query():
-    from dtool_lookup_server_direct_mongo_plugin.config import Config
     from dtool_lookup_server_direct_mongo_plugin.utils import _dict_to_mongo_query
-    backup = Config.QUERY_DICT_VALID_KEYS.copy()
 
-    # Test with direct queries disabled
-    query = dict(query={'key': 'value'})
-    Config.ALLOW_DIRECT_QUERY = False
-    assert _dict_to_mongo_query(query) == {}
-
-    # Test with direct queries enabled
     query = dict(query={'key': 'value'})
     expected_mongo_query = {"key": "value"}
-    Config.ALLOW_DIRECT_QUERY = True
     assert _dict_to_mongo_query(query) == expected_mongo_query
 
-    # Test empty query.
     query = dict(query={})
     assert _dict_to_mongo_query(query) == {}
-
-    Config.QUERY_DICT_VALID_KEYS = backup
 
 
 def test_combinations():

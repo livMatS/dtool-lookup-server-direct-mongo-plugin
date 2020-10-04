@@ -14,6 +14,11 @@ from .config import Config
 logger = logging.getLogger(__name__)
 
 
+def config_to_dict(username):
+    # TODO: check on privileges
+    return Config.to_dict()
+
+
 def _dict_to_mongo_query(query_dict):
     """Construct mongo query as usual, but allow embedding a raw mongo query.
 
@@ -30,12 +35,13 @@ def _dict_to_mongo_query(query_dict):
     # dtool_lookup_server.utils._dict_to_mongo_query returns:
     mongo_query = dtool_lookup_server.utils._dict_to_mongo_query(query_dict)
 
-    if len(mongo_query) == 0:
+    if len(raw_mongo) > 0 and len(mongo_query) == 0:
         mongo_query = raw_mongo
-    elif len(mongo_query) == 1 and "$and" in mongo_query:
+    elif len(raw_mongo) > 0 and len(mongo_query) == 1 and "$and" in mongo_query:
         mongo_query["$and"].append(raw_mongo)
-    else:
+    elif len(raw_mongo) > 0:
         mongo_query = {"$and": [mongo_query, raw_mongo]}
+
     logger.debug("Constructed mongo query: {}".format(mongo_query))
     return mongo_query
 

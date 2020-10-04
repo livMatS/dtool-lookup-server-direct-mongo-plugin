@@ -1,4 +1,5 @@
 """Test the /mongo blueprint routes."""
+# NOTE: modified subset of dtool-lookup-server/tests/dataset_routes.py
 
 import json
 
@@ -107,20 +108,7 @@ def test_mongo_query_route(tmp_app_with_data):  # NOQA
         content_type="application/json"
     )
     assert r.status_code == 200
-    # expected_response = [
-    #     {
-    #         'available_at': ['s3://mr-men', 's3://snow-white'],
-    #         'count': 2,
-    #         'name': 'bad-apples'
-    #     }, {
-    #         'available_at': ['s3://snow-white'],
-    #         'count': 1,
-    #         'name': 'oranges'
-    #     }
-    # ]
-    response = json.loads(r.data.decode("utf-8"))
-    print(response)
-    # assert compare_nested(response, expected_response)
+    assert len(json.loads(r.data.decode("utf-8"))) == 2
 
 
 def test_mongo_aggregate_route(tmp_app_with_data_and_relaxed_security):  # NOQA

@@ -22,7 +22,7 @@ class Config(object):
     # should only be enabled if some privileges are configured a the MongoDB
     # level as well.
     ALLOW_DIRECT_AGGREGATION = os.environ.get('DTOOL_LOOKUP_SERVER_ALLOW_DIRECT_AGGREGATION',
-                                              'True').lower() in ['true', '1', 'y', 'yes', 'on']
+                                              'False').lower() in ['true', '1', 'y', 'yes', 'on']
 
     @classmethod
     def to_dict(cls):
