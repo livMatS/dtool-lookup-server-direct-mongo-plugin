@@ -2,6 +2,8 @@ from flask import (
     abort,
     Blueprint,
     jsonify,
+    request,
+    current_app,
 )
 from flask_jwt_extended import (
     jwt_required,
@@ -9,16 +11,19 @@ from flask_jwt_extended import (
 )
 from dtool_lookup_server import AuthenticationError
 
+from .config import Config
 from .utils import (
     config_to_dict,
     query_datasets_by_user,
     aggregate_datasets_by_user,
 )
 
+
 __version__ = "0.1.0"
 
 
 mongo_bp = Blueprint("mongo", __name__, url_prefix="/mongo")
+
 
 @mongo_bp.route("/config", methods=["GET"])
 @jwt_required
@@ -32,13 +37,15 @@ def plugin_config():
     return jsonify(config)
 
 
-mongo_bp.route("/query", methods=["POST"])
+@mongo_bp.route("/query", methods=["POST"])
 @jwt_required
 def query_datasets():
     """Query datasets a user has access to."""
+    if not Config.ALLOW_DIRECT_QUERY:
+        abort(404)
     username = get_jwt_identity()
     query = request.get_json()
-    current_app.logger.debug("Received aggregate request '{}' from user '{}'.".format(query, username))
+    current_app.logger.debug("Received query request '{}' from user '{}'.".format(query, username))
     try:
         datasets = query_datasets_by_user(username, query)
     except AuthenticationError:
@@ -46,10 +53,12 @@ def query_datasets():
     return jsonify(datasets)
 
 
-mongo_bp.route("/aggregate", methods=["POST"])
+@mongo_bp.route("/aggregate", methods=["POST"])
 @jwt_required
 def aggregate_datasets():
     """Aggregate the datasets a user has access to."""
+    if not Config.ALLOW_DIRECT_AGGREGATION:
+        abort(404)
     username = get_jwt_identity()
     query = request.get_json()
     current_app.logger.debug("Received aggregate request '{}' from user '{}'.".format(query, username))

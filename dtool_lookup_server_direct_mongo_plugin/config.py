@@ -1,6 +1,6 @@
-import json
 import os
 import dtool_lookup_server_direct_mongo_plugin
+
 
 class Config(object):
     # Above all enters the flask app, below does not.
