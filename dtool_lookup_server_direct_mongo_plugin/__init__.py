@@ -1,3 +1,14 @@
+try:
+    from importlib.metadata import version, PackageNotFoundError
+except ModuleNotFoundError:
+    from importlib_metadata import version, PackageNotFoundError
+
+try:
+    __version__ = version(__name__)
+except PackageNotFoundError:
+    # package is not installed
+   pass
+
 from flask import (
     abort,
     Blueprint,
@@ -17,9 +28,6 @@ from .utils import (
     query_datasets_by_user,
     aggregate_datasets_by_user,
 )
-
-
-__version__ = "0.1.0"
 
 
 mongo_bp = Blueprint("mongo", __name__, url_prefix="/mongo")

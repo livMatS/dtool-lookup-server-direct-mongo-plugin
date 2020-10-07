@@ -1,5 +1,5 @@
 import os
-import dtool_lookup_server_direct_mongo_plugin
+from . import __version__
 
 
 class Config(object):
@@ -28,7 +28,7 @@ class Config(object):
     def to_dict(cls):
         """Convert plugin configuration into dict."""
         exclusions = []  # config keys to exclude
-        d = {'version': dtool_lookup_server_direct_mongo_plugin.__version__}
+        d = {'version': __version__}
         for k, v in cls.__dict__.items():
             # select only capitalized fields
             if k.upper() == k and k not in exclusions:
