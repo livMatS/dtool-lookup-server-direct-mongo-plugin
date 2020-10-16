@@ -1,8 +1,8 @@
 Dtool Lookup Server Direct Mongo Plugin
 =======================================
 
-- GitHub: https://github.com/IMTEK-Simulation/dtool-lookup-server-plugin-scaffolding
-- PyPI: https://pypi.python.org/pypi/dtool-lookup-server-plugin-scaffolding
+- GitHub: https://github.com/IMTEK-Simulation/dtool-lookup-server-direct-mongo-plugin
+- PyPI: https://pypi.org/project/dtool-lookup-server-direct-mongo-plugin/
 - Free software: MIT License
 
 
