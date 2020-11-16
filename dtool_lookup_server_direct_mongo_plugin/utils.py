@@ -7,6 +7,7 @@ import logging
 from flask import current_app
 from dtool_lookup_server import mongo, MONGO_COLLECTION
 
+import dtoolcore.utils
 import dtool_lookup_server.utils
 
 from .config import Config
@@ -99,6 +100,13 @@ def query_datasets_by_user(username, query):
         }
     )
     for ds in cx:
+
+        # Convert datetime object to float timestamp.
+        for key in ("created_at", "frozen_at"):
+            if key in ds:
+                datetime_obj = ds[key]
+                ds[key] = dtoolcore.utils.timestamp(datetime_obj)
+
         datasets.append(ds)
     return datasets
 
@@ -137,6 +145,12 @@ def aggregate_datasets_by_user(username, query):
     # responsibility to project out desired fields and remove non-serializable
     # content. The only modification always applied is removing any '_id' field.
     for ds in cx:
+        # Convert datetime object to float timestamp.
+        for key in ("created_at", "frozen_at"):
+            if key in ds:
+                datetime_obj = ds[key]
+                ds[key] = dtoolcore.utils.timestamp(datetime_obj)
+
         datasets.append(ds)
 
     return datasets
