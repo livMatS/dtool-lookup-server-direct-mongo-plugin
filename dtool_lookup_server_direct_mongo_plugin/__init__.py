@@ -34,7 +34,7 @@ mongo_bp = Blueprint("mongo", __name__, url_prefix="/mongo")
 
 
 @mongo_bp.route("/config", methods=["GET"])
-@jwt_required
+@jwt_required()
 def plugin_config():
     """Return the JSON-serialized plugin configuration."""
     username = get_jwt_identity()
@@ -46,7 +46,7 @@ def plugin_config():
 
 
 @mongo_bp.route("/query", methods=["POST"])
-@jwt_required
+@jwt_required()
 def query_datasets():
     """Query datasets a user has access to."""
     if not Config.ALLOW_DIRECT_QUERY:
@@ -62,7 +62,7 @@ def query_datasets():
 
 
 @mongo_bp.route("/aggregate", methods=["POST"])
-@jwt_required
+@jwt_required()
 def aggregate_datasets():
     """Aggregate the datasets a user has access to."""
     if not Config.ALLOW_DIRECT_AGGREGATION:
