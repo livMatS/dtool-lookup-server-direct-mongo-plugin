@@ -61,6 +61,9 @@ def tmp_app_with_users(request):
     tmp_mongo_db_name = random_string()
 
     config = {
+        "API_TITLE": 'dtool-lookup-server API',
+        "API_VERSION": 'v1',
+        "OPENAPI_VERSION": '3.0.2',
         "SECRET_KEY": "secret",
         "FLASK_ENV": "development",
         "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
@@ -120,6 +123,9 @@ def tmp_app_with_data(request):
     tmp_mongo_db_name = random_string()
 
     config = {
+        "API_TITLE": 'dtool-lookup-server API',
+        "API_VERSION": 'v1',
+        "OPENAPI_VERSION": '3.0.2',
         "FLASK_ENV": "development",
         "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
         "MONGO_URI": "mongodb://localhost:27017/{}".format(tmp_mongo_db_name),
