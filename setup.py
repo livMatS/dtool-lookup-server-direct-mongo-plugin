@@ -23,8 +23,8 @@ setup(
     use_scm_version={"local_scheme": local_scheme},
     url=url,
     entry_points={
-        'dtool_lookup_server.blueprints': [
-            'dtool_lookup_server_direct_mongo_plugin=dtool_lookup_server_direct_mongo_plugin:mongo_bp',
+        'dtool_lookup_server.extension': [
+            'DirectMongoExtension=dtool_lookup_server_direct_mongo_plugin:DirectMongoExtension',
         ],
     },
     setup_requires=['setuptools_scm'],

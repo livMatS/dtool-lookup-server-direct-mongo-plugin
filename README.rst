@@ -29,4 +29,4 @@ provides a web API for registering datasets' metadata
 and provides functionality to lookup, list and search for datasets.
 
 This plugin allows to submit plain mongo queries and aggregation pipelines
-directly to the lookup server's underlying database.
+directly to the lookup server.
