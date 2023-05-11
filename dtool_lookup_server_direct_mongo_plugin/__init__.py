@@ -182,26 +182,31 @@ def aggregate_datasets_by_user(username, query):
 class DirectMongoExtension(ExtensionABC):
     """Extension for making dtool datasets, in particular content of README, searchable with direct mongo queries."""
 
+    # NOTE: Not very neat using class variables here, but the way the plugin
+    # system works now, we need to provide the class-external route above some
+    # means of accessing the database that's configured within the init_app
+    # method here.
     client = None
     collection = None
+    db = None
 
     def init_app(self, app):
         try:
             self._mongo_uri = app.config["MONGO_URI"]
-            self.client = MongoClient(self._mongo_uri,
+            DirectMongoExtension.client = MongoClient(self._mongo_uri,
                                       uuidRepresentation='standard')
         except KeyError:
             raise(RuntimeError("Please set the MONGO_URI environment variable"))  # NOQA
 
         try:
             self._mongo_db = app.config["MONGO_DB"]
-            self.db = self.client[self._mongo_db]
+            DirectMongoExtension.db = self.client[self._mongo_db]
         except KeyError:
             raise(RuntimeError("Please set the MONGO_DB environment variable"))  # NOQA
 
         try:
             self._mongo_collection = app.config["MONGO_COLLECTION"]
-            self.collection = self.db[self._mongo_collection]
+            DirectMongoExtension.collection = self.db[self._mongo_collection]
         except KeyError:
             raise(RuntimeError("Please set the MONGO_COLLECTION environment variable"))  # NOQA
 
