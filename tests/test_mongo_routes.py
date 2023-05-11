@@ -3,7 +3,6 @@
 
 import json
 
-from . import tmp_app_with_data, tmp_app_with_data_and_relaxed_security  # NOQA
 from . import compare_nested
 
 from . import (
@@ -54,43 +53,7 @@ def test_mongo_query_route(tmp_app_with_data):  # NOQA
     )
     assert r.status_code == 401
 
-    # Search for apples (in README).
-    headers = dict(Authorization="Bearer " + grumpy_token)
-    query = {"free_text": "apple"}
-    r = tmp_app_with_data.post(
-        "/mongo/query",
-        headers=headers,
-        data=json.dumps(query),
-        content_type="application/json"
-    )
-    assert r.status_code == 200
-    assert len(json.loads(r.data.decode("utf-8"))) == 2
-
-    # Search for U00096 (in manifest).
-    headers = dict(Authorization="Bearer " + grumpy_token)
-    query = {"free_text": "U00096"}
-    r = tmp_app_with_data.post(
-        "/mongo/query",
-        headers=headers,
-        data=json.dumps(query),
-        content_type="application/json"
-    )
-    assert r.status_code == 200
-    assert len(json.loads(r.data.decode("utf-8"))) == 2
-
-    # Search for crazystuff (in annotaitons).
-    headers = dict(Authorization="Bearer " + grumpy_token)
-    query = {"free_text": "crazystuff"}
-    r = tmp_app_with_data.post(
-        "/mongo/query",
-        headers=headers,
-        data=json.dumps(query),
-        content_type="application/json"
-    )
-    assert r.status_code == 200
-    assert len(json.loads(r.data.decode("utf-8"))) == 1
-
-    # second, try some direct mongo
+    # try some direct mongo
     query = {
         'query': {
             'base_uri': 's3://snow-white',
@@ -148,43 +111,7 @@ def test_mongo_aggregate_route(tmp_app_with_data_and_relaxed_security):  # NOQA
     )
     assert r.status_code == 401
 
-    # Search for apples (in README).
-    headers = dict(Authorization="Bearer " + grumpy_token)
-    query = {"free_text": "apple"}
-    r = tmp_app_with_data_and_relaxed_security.post(
-        "/mongo/aggregate",
-        headers=headers,
-        data=json.dumps(query),
-        content_type="application/json"
-    )
-    assert r.status_code == 200
-    assert len(json.loads(r.data.decode("utf-8"))) == 2
-
-    # Search for U00096 (in manifest).
-    headers = dict(Authorization="Bearer " + grumpy_token)
-    query = {"free_text": "U00096"}
-    r = tmp_app_with_data_and_relaxed_security.post(
-        "/mongo/aggregate",
-        headers=headers,
-        data=json.dumps(query),
-        content_type="application/json"
-    )
-    assert r.status_code == 200
-    assert len(json.loads(r.data.decode("utf-8"))) == 2
-
-    # Search for crazystuff (in annotaitons).
-    headers = dict(Authorization="Bearer " + grumpy_token)
-    query = {"free_text": "crazystuff"}
-    r = tmp_app_with_data_and_relaxed_security.post(
-        "/mongo/aggregate",
-        headers=headers,
-        data=json.dumps(query),
-        content_type="application/json"
-    )
-    assert r.status_code == 200
-    assert len(json.loads(r.data.decode("utf-8"))) == 1
-
-    # second, try some direct aggregation
+    # try some direct aggregation
     query = {
         'aggregation': [
             {

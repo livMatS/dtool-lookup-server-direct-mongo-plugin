@@ -1,7 +1,7 @@
 Dtool Lookup Server Direct Mongo Plugin
 =======================================
 
-- GitHub: https://github.com/IMTEK-Simulation/dtool-lookup-server-direct-mongo-plugin
+- GitHub: https://github.com/livMatS/dtool-lookup-server-direct-mongo-plugin
 - PyPI: https://pypi.org/project/dtool-lookup-server-direct-mongo-plugin/
 - Free software: MIT License
 
@@ -10,7 +10,7 @@ Features
 --------
 
 - Query datasets via mongo language
-- Funnel datadata through aggregation pipelines 
+- Funnel datasets through aggregation pipelines
 
 
 Introduction
@@ -30,3 +30,8 @@ and provides functionality to lookup, list and search for datasets.
 
 This plugin allows to submit plain mongo queries and aggregation pipelines
 directly to the lookup server.
+
+Testing
+-------
+
+
