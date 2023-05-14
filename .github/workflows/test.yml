@@ -10,8 +10,8 @@ jobs:
         python-version: [3.7, 3.8, 3.9, 3.10]
         mongodb-version: [4.0, 4.2]
         dtool-lookup-server-version: [main]
-        dtool-lookup-server-search-plugn-mongo-version: [main]
-        dtool-lookup-server-retrieve-plugn-mongo-version: [main]
+        dtool-lookup-server-search-plugin-mongo-version: [main]
+        dtool-lookup-server-retrieve-plugin-mongo-version: [main]
 
     steps:
     - name: Git checkout
@@ -27,11 +27,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Test with pytest
-      run: |
-        pytest
-
-    ###
     - name: Install requirements
       run: |
         python -m pip install --upgrade pip
@@ -51,8 +46,8 @@ jobs:
       run: |
         # This should move into the strategy matrix once released 
         pip install git+https://github.com/jotelha/dtool-lookup-server-search-plugin-mongo.git@${{ matrix.dtool-lookup-server-version }}
-        pip install git+https://github.com/jotelha/dtool-lookup-server-search-plugin-mongo.git@${{ matrix.dtool-lookup-server-search-plugin-version }}
-        pip install git+https://github.com/jotelha/dtool-lookup-server-retrieve-plugin-mongo.git@${{ matrix.dtool-lookup-server-retrieve-plugin-version }}
+        pip install git+https://github.com/jotelha/dtool-lookup-server-search-plugin-mongo.git@${{ matrix.dtool-lookup-server-search-plugin-mongo-version }}
+        pip install git+https://github.com/jotelha/dtool-lookup-server-retrieve-plugin-mongo.git@${{ matrix.dtool-lookup-server-retrieve-plugin-mongo-version }}
 
     - name: Remaining requirements
       run: |
