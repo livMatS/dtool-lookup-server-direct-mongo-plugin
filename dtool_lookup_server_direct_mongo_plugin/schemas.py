@@ -7,5 +7,5 @@ class QueryDatasetSchema(Schema):
     base_uris = List(String)
     uuids = List(UUID)
     tags = List(String)
-    aggregtion = Dict()
+    aggregation = List(Dict)
     query = Dict()
