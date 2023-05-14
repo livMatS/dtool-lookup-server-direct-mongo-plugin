@@ -7,11 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9, 3.10]
-        mongodb-version: [4.0, 4.2]
-        dtool-lookup-server-version: [main]
-        dtool-lookup-server-search-plugin-mongo-version: [main]
-        dtool-lookup-server-retrieve-plugin-mongo-version: [main]
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        mongodb-version: ["4.0", "4.2"]
+        dtool-lookup-server-version: ["main"]
+        dtool-lookup-server-search-plugin-mongo-version: ["main"]
+        dtool-lookup-server-retrieve-plugin-mongo-version: ["main"]
 
     steps:
     - name: Git checkout
