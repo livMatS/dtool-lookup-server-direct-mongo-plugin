@@ -17,7 +17,7 @@ class Config(object):
     # be enforced as usual by embedding such queries in accompanying logical
     # 'and' clauses, see utils._preprocess_privileges() and
     #  utils._dict_to_mongo_query().
-    ALLOW_DIRECT_QUERY = os.environ.get('DTOOL_LOOKUP_SERVER_ALLOW_DIRECT_QUERY',
+    ALLOW_DIRECT_QUERY = os.environ.get('ALLOW_DIRECT_QUERY',
                                         'True').lower() in ['true', '1', 'y', 'yes', 'on']
     # This option allows a client to submit direct mongo-syntaxed aggregations
     # to the underlying mongo database. As above, externally managed privileges
@@ -27,5 +27,5 @@ class Config(object):
     # aggregation stages allow write access to the database, thus this option
     # should only be enabled if some privileges are configured a the MongoDB
     # level as well.
-    ALLOW_DIRECT_AGGREGATION = os.environ.get('DTOOL_LOOKUP_SERVER_ALLOW_DIRECT_AGGREGATION',
+    ALLOW_DIRECT_AGGREGATION = os.environ.get('ALLOW_DIRECT_AGGREGATION',
                                               'False').lower() in ['true', '1', 'y', 'yes', 'on']
