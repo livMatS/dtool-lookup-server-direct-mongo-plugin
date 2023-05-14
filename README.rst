@@ -1,6 +1,16 @@
 Dtool Lookup Server Direct Mongo Plugin
 =======================================
 
+.. image:: https://img.shields.io/github/actions/workflow/status/livMatS/dtool-lookup-server-direct-mongo-plugin/test.yml?branch=main
+    :target: https://github.com/livMatS/dtool-lookup-server-direct-mongo-plugin/actions/workflows/test.yml
+    :alt: GitHub Workflow Status
+.. image:: https://img.shields.io/pypi/v/dtool-lookup-server-direct-mongo-plugin
+    :alt: PyPI
+    :target: https://pypi.org/project/dtool-lookup-server-direct-mongo-plugin/
+.. image:: https://img.shields.io/github/v/tag/livMatS/dtool-lookup-server-direct-mongo-plugin
+    :alt: GitHub tag (latest by date)
+    :target: https://github.com/livMatS/dtool-lookup-server-direct-mongo-plugin/tags
+    
 - GitHub: https://github.com/livMatS/dtool-lookup-server-direct-mongo-plugin
 - PyPI: https://pypi.org/project/dtool-lookup-server-direct-mongo-plugin/
 - Free software: MIT License
