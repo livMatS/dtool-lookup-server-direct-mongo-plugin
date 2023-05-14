@@ -1,17 +1,23 @@
 import os
 from . import __version__
 
+CONFIG_SECRETS_TO_OBFUSCATE = [
+    "MONGO_URI",
+    "MONGO_DB",
+    "MONGO_COLLECTION"
+]
 
 class Config(object):
-    # Above all enters the flask app, below does not.
-    # Would those settings belong here or should they be somewhere else, i.e.
-    # a specific dtool lookup server configuration file?
+    MONGO_URI = os.environ.get("MONGO_URI", "mongodb://localhost:27017/")
+    MONGO_DB = os.environ.get("MONGO_DB", "dtool_info")
+    MONGO_COLLECTION = os.environ.get("MONGO_COLLECTION", "datasets")
+
     # This option allows a client to submit direct mongo-syntaxed queries
     # to the underlying mongo database. Externally managed privileges will
     # be enforced as usual by embedding such queries in accompanying logical
     # 'and' clauses, see utils._preprocess_privileges() and
     #  utils._dict_to_mongo_query().
-    ALLOW_DIRECT_QUERY = os.environ.get('DTOOL_LOOKUP_SERVER_ALLOW_DIRECT_QUERY',
+    ALLOW_DIRECT_QUERY = os.environ.get('ALLOW_DIRECT_QUERY',
                                         'True').lower() in ['true', '1', 'y', 'yes', 'on']
     # This option allows a client to submit direct mongo-syntaxed aggregations
     # to the underlying mongo database. As above, externally managed privileges
@@ -21,16 +27,5 @@ class Config(object):
     # aggregation stages allow write access to the database, thus this option
     # should only be enabled if some privileges are configured a the MongoDB
     # level as well.
-    ALLOW_DIRECT_AGGREGATION = os.environ.get('DTOOL_LOOKUP_SERVER_ALLOW_DIRECT_AGGREGATION',
+    ALLOW_DIRECT_AGGREGATION = os.environ.get('ALLOW_DIRECT_AGGREGATION',
                                               'False').lower() in ['true', '1', 'y', 'yes', 'on']
-
-    @classmethod
-    def to_dict(cls):
-        """Convert plugin configuration into dict."""
-        exclusions = []  # config keys to exclude
-        d = {'version': __version__}
-        for k, v in cls.__dict__.items():
-            # select only capitalized fields
-            if k.upper() == k and k not in exclusions:
-                d[k.lower()] = v
-        return d

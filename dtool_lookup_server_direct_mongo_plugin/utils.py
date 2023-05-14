@@ -1,29 +1,96 @@
 """Utility functions."""
-# TODO: expose protected members _preprocess_privileges and _dict_to_mongo_query
-#       of dtool_lookup_server.utils publically for plugin API.
 
 import logging
+import yaml
 
 from flask import current_app
-from dtool_lookup_server import mongo, MONGO_COLLECTION
 
-import dtoolcore.utils
-import dtool_lookup_server.utils
+from dtool_lookup_server.date_utils import (
+    extract_created_at_as_datetime,
+    extract_frozen_at_as_datetime,
+)
 
 from .config import Config
 
 logger = logging.getLogger(__name__)
 
 
+VALID_MONGO_QUERY_KEYS = (
+    "free_text",
+    "creator_usernames",
+    "base_uris",
+    "uuids",
+    "tags",
+)
+
+MONGO_QUERY_LIST_KEYS = (
+    "creator_usernames",
+    "base_uris",
+    "uuids",
+    "tags",
+)
+
+
 def config_to_dict(username):
-    # TODO: check on privileges
     return Config.to_dict()
+
+
+def _dict_to_mongo(query_dict):
+    def _sanitise(query_dict):
+        for key in list(query_dict.keys()):
+            if key not in VALID_MONGO_QUERY_KEYS:
+                del query_dict[key]
+        for lk in MONGO_QUERY_LIST_KEYS:
+            if lk in query_dict:
+                if len(query_dict[lk]) == 0:
+                    del query_dict[lk]
+
+    def _deal_with_possible_or_statment(a_list, key):
+        if len(a_list) == 1:
+            return {key: a_list[0]}
+        else:
+            return {"$or": [{key: v} for v in a_list]}
+
+    def _deal_with_possible_and_statement(a_list, key):
+        if len(a_list) == 1:
+            return {key: a_list[0]}
+        else:
+            return {key: {"$all": a_list}}
+
+    _sanitise(query_dict)
+
+    sub_queries = []
+    if "free_text" in query_dict:
+        sub_queries.append({"$text": {"$search": query_dict["free_text"]}})
+    if "creator_usernames" in query_dict:
+        sub_queries.append(
+            _deal_with_possible_or_statment(
+                query_dict["creator_usernames"], "creator_username"
+            )
+        )
+    if "base_uris" in query_dict:
+        sub_queries.append(
+            _deal_with_possible_or_statment(query_dict["base_uris"], "base_uri")  # NOQA
+        )
+    if "uuids" in query_dict:
+        sub_queries.append(_deal_with_possible_or_statment(query_dict["uuids"], "uuid"))  # NOQA
+    if "tags" in query_dict:
+        sub_queries.append(
+            _deal_with_possible_and_statement(query_dict["tags"], "tags")
+        )
+
+    if len(sub_queries) == 0:
+        return {}
+    elif len(sub_queries) == 1:
+        return sub_queries[0]
+    else:
+        return {"$and": [q for q in sub_queries]}
 
 
 def _dict_to_mongo_query(query_dict):
     """Construct mongo query as usual, but allow embedding a raw mongo query.
 
-    Treat query_dict as in dtool_lookup_server.utils._dict_to_mongo_query, but
+    Treat query_dict as in search_utils._dict_to_mongo_query, but
     additionally embed raw mongo query if key 'query' exists."""
 
     if "query" in query_dict and isinstance(query_dict["query"], dict):
@@ -32,9 +99,7 @@ def _dict_to_mongo_query(query_dict):
     else:
         raw_mongo = {}
 
-    # NOTE: This requires knowledge about the structure of what the original
-    # dtool_lookup_server.utils._dict_to_mongo_query returns:
-    mongo_query = dtool_lookup_server.utils._dict_to_mongo_query(query_dict)
+    mongo_query = _dict_to_mongo(query_dict)
 
     if len(raw_mongo) > 0 and len(mongo_query) == 0:
         mongo_query = raw_mongo
@@ -58,7 +123,7 @@ def _dict_to_mongo_aggregation(query_dict):
     # unset any _id field, as type ObjectId usually not serializable
     aggregation_tail.append({'$unset': '_id'})
 
-    match_stage = _dict_to_mongo_query(query_dict)
+    match_stage = _dict_to_mongo(query_dict)
     if len(match_stage) > 0:
         aggregation_head = [{'$match': match_stage}]
     else:
@@ -69,88 +134,52 @@ def _dict_to_mongo_aggregation(query_dict):
     return aggregation
 
 
-def query_datasets_by_user(username, query):
-    """Query the datasets the user has access to. Allow raw mongo 'query'.
+def _register_dataset_descriptive_metadata(collection, dataset_info):
+    """Register dataset info in the collection. Try to parse README.
 
-    See dtool_lookup_server.utils.search_datasets_by_user docstring.
+    If the "uuid" and "uri" are the same as another record in
+    the mongodb collection a new record is not created, and
+    the UUID is returned.
 
-    :param username: username
-    :param query: dictionary specifying query
-    :returns: List of dicts if user is valid and has access to datasets.
-              Empty list if user is valid but has not got access to any
-              datasets.
-    :raises: AuthenticationError if user is invalid.
+    Returns UUID of dataset otherwise.
     """
 
-    query = dtool_lookup_server.utils._preprocess_privileges(username, query)
-    # If there are no base URIs at this point it means that the user is not
-    # allowed to search for anything.
-    if len(query["base_uris"]) == 0:
-        return []
+    # Make a copy to ensure that the original data strucutre does not
+    # get mangled by the datetime replacements.
+    dataset_info = dataset_info.copy()
 
-    datasets = []
-    mongo_query = _dict_to_mongo_query(query)
-    cx = mongo.db[MONGO_COLLECTION].find(
-        mongo_query,
-        {
-            "_id": False,
-            "readme": False,
-            "manifest": False,
-            "annotations": False,
-        }
-    )
-    for ds in cx:
+    frozen_at = extract_frozen_at_as_datetime(dataset_info)
+    created_at = extract_created_at_as_datetime(dataset_info)
 
-        # Convert datetime object to float timestamp.
-        for key in ("created_at", "frozen_at"):
-            if key in ds:
-                datetime_obj = ds[key]
-                ds[key] = dtoolcore.utils.timestamp(datetime_obj)
+    dataset_info["frozen_at"] = frozen_at
+    dataset_info["created_at"] = created_at
 
-        datasets.append(ds)
-    return datasets
+    # try to parse content of README as yaml to make searchable
+    try:
+        readme_info = yaml.load(
+            dataset_info["readme"],
+            Loader=yaml.FullLoader
+        )
+    except Exception as exc:
+        current_app.logger.warning("Failed to parse content of readme as YAML for dataset %s:", dataset_info["uri"])
+        current_app.logger.warning(exc)
 
+    dataset_info["readme"] = readme_info
 
-def aggregate_datasets_by_user(username, query):
-    """Aggregate the datasets the user has access to.
-    Valid keys for the query are: creator_usernames, base_uris, free_text,
-    aggregation. If the query dictionary is empty, all datasets that a user has
-    access to are returned.
-    :param username: username
-    :param query: dictionary specifying query
-    :returns: List of dicts if user is valid and has access to datasets.
-              Empty list if user is valid but has not got access to any
-              datasets.
-    :raises: AuthenticationError if user is invalid.
-    """
-    if not Config.ALLOW_DIRECT_AGGREGATION:
-        current_app.logger.warning(
-            "Received aggregate request '{}' from user '{}', but direct "
-            "aggregations are disabled.".format(query, username))
-        return []  # silently reject request
+    query = {"uuid": dataset_info["uuid"], "uri": dataset_info["uri"]}
 
-    # TODO: make applying privileges configurable
-    query = dtool_lookup_server.utils._preprocess_privileges(username, query)
+    # If a record with the same UUID and URI exists return the uuid
+    # without adding a duplicate record.
+    exists = collection.find_one(query)
 
-    # If there are no base URIs at this point it means that the user has not
-    # got privileges to search for anything.
-    # TODO: reject on blueprint level (?)
-    if len(query["base_uris"]) == 0:
-        return []
-    datasets = []
+    if exists is None:
+        collection.insert_one(dataset_info)
+    else:
+        collection.find_one_and_replace(query, dataset_info)
 
-    mongo_aggregation = _dict_to_mongo_aggregation(query)
-    cx = mongo.db[MONGO_COLLECTION].aggregate(mongo_aggregation)
-    # Opposed to search_datasets_by_user, here it is the aggregator's
-    # responsibility to project out desired fields and remove non-serializable
-    # content. The only modification always applied is removing any '_id' field.
-    for ds in cx:
-        # Convert datetime object to float timestamp.
-        for key in ("created_at", "frozen_at"):
-            if key in ds:
-                datetime_obj = ds[key]
-                ds[key] = dtoolcore.utils.timestamp(datetime_obj)
+    # The MongoDB client dynamically updates the dataset_info dict
+    # with and '_id' key. Remove it.
+    if "_id" in dataset_info:
+        del dataset_info["_id"]
 
-        datasets.append(ds)
-
-    return datasets
+    return dataset_info["uuid"]
