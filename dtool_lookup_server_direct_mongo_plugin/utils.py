@@ -163,6 +163,7 @@ def _register_dataset_descriptive_metadata(collection, dataset_info):
     except Exception as exc:
         current_app.logger.warning("Failed to parse content of readme as YAML for dataset %s:", dataset_info["uri"])
         current_app.logger.warning(exc)
+        readme_info = {}
 
     dataset_info["readme"] = readme_info
 
