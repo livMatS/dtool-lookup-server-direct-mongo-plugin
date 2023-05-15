@@ -1,5 +1,4 @@
 import os
-from . import __version__
 
 CONFIG_SECRETS_TO_OBFUSCATE = [
     "MONGO_URI",
