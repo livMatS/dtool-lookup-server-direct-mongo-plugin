@@ -108,19 +108,19 @@ Response content::
     ]
 
 Next to the content of the ``README.yml``, other fields of the database-internal
-dataset representation are directly queryiable as well.
-All queries are formulated in the MongoDB language.
-The [MongoDB documenatation](https://www.mongodb.com/docs/manual/introduction/)
+dataset representation returned in the example above are directly queryable as
+well. All queries are formulated in the MongoDB language.
+The `MongoDB documenatation <https://www.mongodb.com/docs/manual/introduction/>`_
 offers information on how to formulate queries. The
-[list of available query operators](https://www.mongodb.com/docs/manual/reference/operator/query/)
-is particularly useful. Other possible JSON-like query documents are:
-
+`list of available query operators <https://www.mongodb.com/docs/manual/reference/operator/query/>`_
+is particularly useful. The following illustrates a few other possible
+JSON-like query documents.
 
 ``'{"base_uri":{"$regex":"^s3"}}'`` will find all datasets whose base URI
 matches the provided regular expression, here any ``s3``-prefixed string.
 
-``'readme.owners.name': {'$regex': 'Testing User'}`` will match any dataset
-with a README field that contains the sub string ``Testing User``, such as::
+``{"readme.owners.name": {"$regex": "Testing User"}}`` will match any dataset
+with a README field that contains the sub string ``Testing User``, such as:
 
     owners:
     - name: A user who does not match the search pattern
@@ -136,7 +136,7 @@ The query:
       "readme.parameters.temperature": 298
     }
 
-will match all datasets created by user ``jotelha`` and annotated with
+will match all datasets created by user ``jotelha`` and annotated with:
 
     parameters:
       temperature: 298
