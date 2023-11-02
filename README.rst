@@ -129,7 +129,9 @@ with a README field that contains the sub string ``Testing User``, such as::
       username: another_test_user
 
 
-····{
+The query:
+
+    {
       "creator_username":·"jotelha",
       "readme.parameters.temperature": 298
     }
