@@ -83,7 +83,7 @@ Direct query
 ------------
 
 To look for a sepcific field ``key2: 42`` in a dataset's README.yml (provided
-the file is properly YAML-formatted), use
+the file is properly YAML-formatted), use::
 
     $ curl -H "$HEADER" -H "Content-Type: application/json" -X POST \
         -d '{"query": {"readme.key2": 42}}' http://localhost:5000/mongo/query
@@ -106,6 +106,40 @@ Response content::
         "uuid": "26785c2a-e8f8-46bf-82a1-cec92dbdf28f"
       }
     ]
+
+Next to the content of the ``README.yml``, other fields of the database-internal
+dataset representation are directly queryiable as well.
+All queries are formulated in the MongoDB language.
+The [MongoDB documenatation](https://www.mongodb.com/docs/manual/introduction/)
+offers information on how to formulate queries. The
+[list of available query operators](https://www.mongodb.com/docs/manual/reference/operator/query/)
+is particularly useful. Other possible JSON-like query documents are:
+
+
+``'{"base_uri":{"$regex":"^s3"}}'`` will find all datasets whose base URI
+matches the provided regular expression, here any ``s3``-prefixed string.
+
+``'readme.owners.name': {'$regex': 'Testing User'}`` will match any dataset
+with a README field that contains the sub string ``Testing User``, such as::
+
+    owners:
+    - name: A user who does not match the search pattern
+      username: test_user
+    - name: Another Testing User matches the search pattern
+      username: another_test_user
+
+
+····{
+      "creator_username":·"jotelha",
+      "readme.parameters.temperature": 298
+    }
+
+will match all datasets created by user ``jotelha`` and annotated with
+
+    parameters:
+      temperature: 298
+
+in its ``README.yml``.
 
 
 Direct aggregation
