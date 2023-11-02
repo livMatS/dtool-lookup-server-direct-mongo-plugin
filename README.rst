@@ -46,7 +46,9 @@ Configuration
 -------------
 
 Inform this plugin about the Mongo database to use by setting the environment
-variables::
+variables
+
+.. code-block:: bash
 
     export MONGO_URI="mongodb://localhost:27017/"
     export MONGO_DB="dtool_lookup_server"
@@ -56,6 +58,8 @@ If the Mongo search and retrieve plugins are used, then you may use the same
 database, but must use a different collection.
 
 Use
+
+.. code-block:: bash
 
     export ALLOW_DIRECT_QUERY=true
     export ALLOW_DIRECT_AGGREGATION=false
@@ -72,7 +76,9 @@ Authentication
 
 The dtool lookup server makes use of the authorized header to pass through the
 JSON web token for authorization. Below we create environment variables for the
-token and the header used in the following ``curl`` command samples::
+token and the header used in the following ``curl`` command samples
+
+.. code-block:: console
 
     $ TOKEN=$(flask user token test-user)
     $ HEADER="Authorization: Bearer $TOKEN"
@@ -83,12 +89,16 @@ Direct query
 ------------
 
 To look for a sepcific field ``key2: 42`` in a dataset's README.yml (provided
-the file is properly YAML-formatted), use::
+the file is properly YAML-formatted), use
+
+.. code-block:: console
 
     $ curl -H "$HEADER" -H "Content-Type: application/json" -X POST \
         -d '{"query": {"readme.key2": 42}}' http://localhost:5000/mongo/query
 
-Response content::
+Response content:
+
+.. code-block:: JSON
 
     [
       {
@@ -120,7 +130,9 @@ JSON-like query documents.
 matches the provided regular expression, here any ``s3``-prefixed string.
 
 ``{"readme.owners.name": {"$regex": "Testing User"}}`` will match any dataset
-with a README field that contains the sub string ``Testing User``, such as:
+with a README field that contains the sub string ``Testing User``, such as
+
+.. code-block:: YAML
 
     owners:
     - name: A user who does not match the search pattern
@@ -129,7 +141,9 @@ with a README field that contains the sub string ``Testing User``, such as:
       username: another_test_user
 
 
-The query:
+The query
+
+.. code-block:: JSON
 
     {
       "creator_username":·"jotelha",
@@ -137,6 +151,8 @@ The query:
     }
 
 will match all datasets created by user ``jotelha`` and annotated with:
+
+.. code-block:: YAML
 
     parameters:
       temperature: 298
@@ -148,7 +164,9 @@ Direct aggregation
 ------------------
 
 The following example of an aggregation pipeline identifies
-and counts instances of the same dataset at different base URIs::
+and counts instances of the same dataset at different base URIs:
+
+.. code-block:: console
 
     $ curl -H "$HEADER" -H "Content-Type: application/json" -X POST \
         -d '{"aggregation": [
@@ -173,7 +191,9 @@ and counts instances of the same dataset at different base URIs::
             ]
         }' http://localhost:5000/mongo/aggregate
 
-Response content::
+Response content:
+
+.. code-block:: JSON
 
     [
       {
