@@ -146,7 +146,7 @@ The query
 .. code-block:: JSON
 
     {
-      "creator_username":·"jotelha",
+      "creator_username": "jotelha",
       "readme.parameters.temperature": 298
     }
 
