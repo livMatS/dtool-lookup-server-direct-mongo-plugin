@@ -1,4 +1,4 @@
-# diluted dtool_lookup_server tests/__init__.py
+# diluted dserver tests/__init__.py
 import random
 import string
 import os

@@ -26,17 +26,17 @@ def snowwhite_token():
 def tmp_app_with_users(request):
     """Provide app with users"""
     from flask import current_app
-    from dtool_lookup_server import create_app, sql_db
-    from dtool_lookup_server.utils import (
+    from dserver import create_app, sql_db
+    from dserver.utils import (
         register_users,
         register_base_uri,
-        update_permissions,
+        put_permissions,
     )
 
     tmp_mongo_db_name = random_string()
 
     config = {
-        "API_TITLE": 'dtool-lookup-server API',
+        "API_TITLE": 'dserver API',
         "API_VERSION": 'v1',
         "OPENAPI_VERSION": '3.0.2',
         "SECRET_KEY": "secret",
@@ -78,11 +78,10 @@ def tmp_app_with_users(request):
     register_base_uri(base_uri)
 
     permissions = {
-        "base_uri": base_uri,
         "users_with_search_permissions": ["grumpy", "sleepy"],
         "users_with_register_permissions": ["grumpy"]
     }
-    update_permissions(permissions)
+    put_permissions(base_uri, permissions)
 
     @request.addfinalizer
     def teardown():
@@ -97,18 +96,18 @@ def tmp_app_with_users(request):
 def tmp_app_with_data(request):
     """Provide app with users"""
     from flask import current_app
-    from dtool_lookup_server import create_app, sql_db
-    from dtool_lookup_server.utils import (
+    from dserver import create_app, sql_db
+    from dserver.utils import (
         register_users,
         register_base_uri,
         register_dataset,
-        update_permissions,
+        put_permissions,
     )
 
     tmp_mongo_db_name = random_string()
 
     config = {
-        "API_TITLE": 'dtool-lookup-server API',
+        "API_TITLE": 'dserver API',
         "API_VERSION": 'v1',
         "OPENAPI_VERSION": '3.0.2',
         "SECRET_KEY": "secret",
@@ -152,11 +151,10 @@ def tmp_app_with_data(request):
     for base_uri in ["s3://snow-white", "s3://mr-men"]:
         register_base_uri(base_uri)
         permissions = {
-            "base_uri": base_uri,
             "users_with_search_permissions": [username],
             "users_with_register_permissions": [username]
         }
-        update_permissions(permissions)
+        put_permissions(base_uri, permissions)
 
     # Add some data to the database.
     for base_uri in ["s3://snow-white", "s3://mr-men"]:
@@ -221,7 +219,7 @@ def tmp_app_with_data(request):
 
 @pytest.fixture
 def tmp_app_with_data_and_relaxed_security(request, tmp_app_with_data):
-    from dtool_lookup_server_direct_mongo_plugin.config import Config
+    from dserver_direct_mongo_plugin.config import Config
     Config.ALLOW_DIRECT_QUERY = True
     Config.ALLOW_DIRECT_AGGREGATION = True
     return tmp_app_with_data

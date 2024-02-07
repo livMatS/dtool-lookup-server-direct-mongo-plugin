@@ -1,18 +1,18 @@
 Dtool Lookup Server Direct Mongo Plugin
 =======================================
 
-.. image:: https://img.shields.io/github/actions/workflow/status/livMatS/dtool-lookup-server-direct-mongo-plugin/test.yml?branch=main
-    :target: https://github.com/livMatS/dtool-lookup-server-direct-mongo-plugin/actions/workflows/test.yml
+.. image:: https://img.shields.io/github/actions/workflow/status/livMatS/dserver-direct-mongo-plugin/test.yml?branch=main
+    :target: https://github.com/livMatS/dserver-direct-mongo-plugin/actions/workflows/test.yml
     :alt: GitHub Workflow Status
-.. image:: https://img.shields.io/pypi/v/dtool-lookup-server-direct-mongo-plugin
+.. image:: https://img.shields.io/pypi/v/dserver-direct-mongo-plugin
     :alt: PyPI
-    :target: https://pypi.org/project/dtool-lookup-server-direct-mongo-plugin/
-.. image:: https://img.shields.io/github/v/tag/livMatS/dtool-lookup-server-direct-mongo-plugin
+    :target: https://pypi.org/project/dserver-direct-mongo-plugin/
+.. image:: https://img.shields.io/github/v/tag/livMatS/dserver-direct-mongo-plugin
     :alt: GitHub tag (latest by date)
-    :target: https://github.com/livMatS/dtool-lookup-server-direct-mongo-plugin/tags
+    :target: https://github.com/livMatS/dserver-direct-mongo-plugin/tags
     
-- GitHub: https://github.com/livMatS/dtool-lookup-server-direct-mongo-plugin
-- PyPI: https://pypi.org/project/dtool-lookup-server-direct-mongo-plugin/
+- GitHub: https://github.com/livMatS/dserver-direct-mongo-plugin
+- PyPI: https://pypi.org/project/dserver-direct-mongo-plugin/
 - Free software: MIT License
 
 
@@ -34,7 +34,7 @@ However, if one has to manage more than a hundred datasets it can be helpful
 to have the datasets' metadata stored in a central server to enable one to
 quickly find datasets of interest.
 
-The `dtool-lookup-server <https://github.com/jic-dtool/dtool-lookup-server>`_ 
+The `dserver <https://github.com/jic-dtool/dserver>`_
 provides a web API for registering datasets' metadata
 and provides functionality to lookup, list and search for datasets.
 
@@ -51,7 +51,7 @@ variables
 .. code-block:: bash
 
     export MONGO_URI="mongodb://localhost:27017/"
-    export MONGO_DB="dtool_lookup_server"
+    export MONGO_DB="dserver"
     export MONGO_COLLECTION="metadata"
 
 If the Mongo search and retrieve plugins are used, then you may use the same
@@ -83,7 +83,7 @@ token and the header used in the following ``curl`` command samples
     $ TOKEN=$(flask user token test-user)
     $ HEADER="Authorization: Bearer $TOKEN"
 
-Refer to the core dcumentation of `dtool-lookup-server <https://github.com/jic-dtool/dtool-lookup-server>`_ for more information.
+Refer to the core dcumentation of `dserver <https://github.com/jic-dtool/dserver>`_ for more information.
 
 Direct query
 ------------
@@ -220,5 +220,5 @@ Testing
 Running unit tests with ``pytest`` requires a healthy lookup server installation
 and the availability of required services such as databases. Please refer to
 the core
-`dtool-lookup-server <https://github.com/jic-dtool/dtool-lookup-server>`_
+`dserver <https://github.com/jic-dtool/dserver>`_
 for setup instructions.
