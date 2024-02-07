@@ -1,5 +1,5 @@
 """Test the plugin's extended _dict_to_mongo_query helper function."""
-# NOTE: extended dtool-lookup-server/tests/test_dict_to_mongo_query.py
+# NOTE: extended dserver/tests/test_dict_to_mongo_query.py
 # TODO: analogous tests for _dict_to_mongo_aggregation helper function.
 
 
@@ -7,20 +7,20 @@
 # its original when not using the additional 'query' keyword.
 def test_empty_dict():
     """An empty dict should return query for all datasets."""
-    from dtool_lookup_server_direct_mongo_plugin.utils import _dict_to_mongo_query
+    from dserver_direct_mongo_plugin.utils import _dict_to_mongo_query
     assert _dict_to_mongo_query({}) == {}
 
 
 def test_free_text():
     """Should return {"$text": {"$search": "free_text_here"}}"""
-    from dtool_lookup_server_direct_mongo_plugin.utils import _dict_to_mongo_query
+    from dserver_direct_mongo_plugin.utils import _dict_to_mongo_query
     query = dict(free_text="free_text_here")
     expected_mongo_query = {"$text": {"$search": "free_text_here"}}
     assert _dict_to_mongo_query(query) == expected_mongo_query
 
 
 def test_creator_usernames():
-    from dtool_lookup_server_direct_mongo_plugin.utils import _dict_to_mongo_query
+    from dserver_direct_mongo_plugin.utils import _dict_to_mongo_query
 
     # Test single creator username.
     query = dict(creator_usernames=["grumpy"])
@@ -41,7 +41,7 @@ def test_creator_usernames():
 
 
 def test_base_uris():
-    from dtool_lookup_server_direct_mongo_plugin.utils import _dict_to_mongo_query
+    from dserver_direct_mongo_plugin.utils import _dict_to_mongo_query
 
     # Test single base URI.
     query = dict(base_uris=["s3://snow-white"])
@@ -58,7 +58,7 @@ def test_base_uris():
 
 
 def test_tags():
-    from dtool_lookup_server_direct_mongo_plugin.utils import _dict_to_mongo_query
+    from dserver_direct_mongo_plugin.utils import _dict_to_mongo_query
 
     # Test single tag.
     query = dict(tags=["evil"])
@@ -77,7 +77,7 @@ def test_tags():
 
 # In the following, test the additional raw mongo 'query' keyword.
 def test_direct_query():
-    from dtool_lookup_server_direct_mongo_plugin.utils import _dict_to_mongo_query
+    from dserver_direct_mongo_plugin.utils import _dict_to_mongo_query
 
     query = dict(query={'key': 'value'})
     expected_mongo_query = {"key": "value"}
@@ -88,7 +88,7 @@ def test_direct_query():
 
 
 def test_combinations():
-    from dtool_lookup_server_direct_mongo_plugin.utils import _dict_to_mongo_query
+    from dserver_direct_mongo_plugin.utils import _dict_to_mongo_query
 
     query = dict(
         free_text="apple",

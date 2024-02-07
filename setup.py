@@ -9,12 +9,12 @@ def local_scheme(version):
     return ""
 
 
-url = "https://github.com/IMTEK-Simulation/dtool-lookup-server-direct-mongo-plugin"
+url = "https://github.com/IMTEK-Simulation/dserver-direct-mongo-plugin"
 readme = open('README.rst').read()
 
 setup(
-    name="dtool-lookup-server-direct-mongo-plugin",
-    packages=["dtool_lookup_server_direct_mongo_plugin"],
+    name="dserver-direct-mongo-plugin",
+    packages=["dserver_direct_mongo_plugin"],
     description="""This plugin allows to submit mongo queries and aggregation
                    pipelines directly to the lookup server's underlying MongoDB.""",
     long_description=readme,
@@ -23,13 +23,13 @@ setup(
     use_scm_version={"local_scheme": local_scheme},
     url=url,
     entry_points={
-        'dtool_lookup_server.extension': [
-            'DirectMongoExtension=dtool_lookup_server_direct_mongo_plugin:DirectMongoExtension',
+        'dserver.extension': [
+            'DirectMongoExtension=dserver_direct_mongo_plugin:DirectMongoExtension',
         ],
     },
     setup_requires=['setuptools_scm'],
     install_requires=[
-        "dtool-lookup-server>=0.18.0",
+        "dserver>=0.18.0",
         "dtoolcore>=3.17.0",
     ],
     download_url="{}/tarball/{}".format(url, version),
