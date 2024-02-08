@@ -50,9 +50,9 @@ variables
 
 .. code-block:: bash
 
-    export MONGO_URI="mongodb://localhost:27017/"
-    export MONGO_DB="dserver"
-    export MONGO_COLLECTION="metadata"
+    export DSERVER_MONGO_URI="mongodb://localhost:27017/"
+    export DSERVER_MONGO_DB="dserver"
+    export DSERVER_MONGO_COLLECTION="metadata"
 
 If the Mongo search and retrieve plugins are used, then you may use the same
 database, but must use a different collection.
@@ -61,8 +61,8 @@ Use
 
 .. code-block:: bash
 
-    export ALLOW_DIRECT_QUERY=true
-    export ALLOW_DIRECT_AGGREGATION=false
+    export DSERVER_ALLOW_DIRECT_QUERY=true
+    export DSERVER_ALLOW_DIRECT_AGGREGATION=false
 
 to enable or disable direct mongo query and aggregation on this plugin.
 
