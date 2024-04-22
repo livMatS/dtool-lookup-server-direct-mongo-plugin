@@ -1,5 +1,5 @@
 """Test the plugin's extended _dict_to_mongo_query helper function."""
-# NOTE: extended dserver/tests/test_dict_to_mongo_query.py
+# NOTE: extended dtool_lookup_server/tests/test_dict_to_mongo_query.py
 # TODO: analogous tests for _dict_to_mongo_aggregation helper function.
 
 

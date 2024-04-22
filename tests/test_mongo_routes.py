@@ -1,5 +1,5 @@
 """Test the /mongo blueprint routes."""
-# NOTE: modified subset of dserver/tests/dataset_routes.py
+# NOTE: modified subset of dtool_lookup_server/tests/dataset_routes.py
 
 import json
 

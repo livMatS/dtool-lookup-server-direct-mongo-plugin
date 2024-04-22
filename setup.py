@@ -9,7 +9,7 @@ def local_scheme(version):
     return ""
 
 
-url = "https://github.com/IMTEK-Simulation/dserver-direct-mongo-plugin"
+url = "https://github.com/livMatS/dserver-direct-mongo-plugin"
 readme = open('README.rst').read()
 
 setup(
