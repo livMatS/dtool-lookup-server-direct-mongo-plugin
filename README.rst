@@ -1,5 +1,5 @@
-Dtool Lookup Server Direct Mongo Plugin
-=======================================
+dserver Direct Mongo Plugin
+===========================
 
 .. image:: https://img.shields.io/github/actions/workflow/status/livMatS/dserver-direct-mongo-plugin/test.yml?branch=main
     :target: https://github.com/livMatS/dserver-direct-mongo-plugin/actions/workflows/test.yml
