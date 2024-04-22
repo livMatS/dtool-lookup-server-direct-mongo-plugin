@@ -5,7 +5,7 @@ import yaml
 
 from flask import current_app
 
-from dserver.date_utils import (
+from dtool_lookup_server.date_utils import (
     extract_created_at_as_datetime,
     extract_frozen_at_as_datetime,
 )
