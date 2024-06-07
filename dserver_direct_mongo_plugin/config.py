@@ -6,6 +6,7 @@ CONFIG_SECRETS_TO_OBFUSCATE = [
     "MONGO_COLLECTION"
 ]
 
+
 class Config(object):
     MONGO_URI = os.environ.get("DSERVER_MONGO_URI", "mongodb://localhost:27017/")
     MONGO_DB = os.environ.get("DSERVER_MONGO_DB", "dtool_info")
