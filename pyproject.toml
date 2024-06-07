@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dserver-direct-mongo-plugin"
-description = """This plugin allows to submit mongo queries and aggregation
-                 pipelines directly to the lookup server's underlying MongoDB."""
+description = "This plugin allows to submit mongo queries and aggregation pipelines directly an underlying MongoDB."
+readme = "README.rst"
 license = {file = "LICENSE"}
 authors = [
     {name = "Johannes L. Hörmann", email = "johannes.laurin@gmail.com"},

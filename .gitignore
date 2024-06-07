@@ -19,3 +19,5 @@ dist/*
 venv/*
 old-provision/*
 jwt-spike/*
+
+dserver_direct_mongo_plugin/version.py
