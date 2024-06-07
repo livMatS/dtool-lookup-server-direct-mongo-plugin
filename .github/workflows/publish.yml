@@ -24,13 +24,14 @@ jobs:
 
     - name: Install requirements
       run: |
+        pip install --upgrade build
         pip install --upgrade setuptools wheel setuptools-scm[toml] importlib-metadata
-        pip install git+https://github.com/livMatS/dtool-lookup-server.git@main
-        pip list    
+        pip install git+https://github.com/jic-dtool/dtool-lookup-server.git@master
+        pip list
     
     - name: Package distribution
       run: |
-        python setup.py sdist bdist_wheel
+        python -m build
 
     - name: Publish distribution to Test PyPI
       uses: pypa/gh-action-pypi-publish@master
