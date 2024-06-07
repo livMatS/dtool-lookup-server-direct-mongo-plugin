@@ -4,8 +4,17 @@ CHANGELOG
 This project uses `semantic versioning <http://semver.org/>`_.
 This change log uses principles from `keep a changelog <http://keepachangelog.com/>`_.
 
+[unpublished]
+-------------
+
+Changed
+^^^^^^^
+
+- Transitioned from ``setup.py`` to ``pyproject.toml``.
+- Rebranded from ``dtool-lookup-server-`` prefix to ``dserver-`` prefix.
+
 [0.2.0]
-------------
+-------
 
 Added
 ^^^^^
