@@ -1,16 +1,18 @@
 dserver Direct Mongo Plugin
 ===========================
 
-.. image:: https://img.shields.io/github/actions/workflow/status/livMatS/dserver-direct-mongo-plugin/test.yml?branch=main
-    :target: https://github.com/livMatS/dserver-direct-mongo-plugin/actions/workflows/test.yml
-    :alt: GitHub Workflow Status
-.. image:: https://img.shields.io/pypi/v/dserver-direct-mongo-plugin
-    :alt: PyPI
+.. |dtool| image:: https://github.com/livMatS/dserver-direct-mongo-plugin/blob/main/icons/22x22/dtool_logo.png?raw=True
+    :height: 20px
+    :target: https://github.com/livMatS/dserver-direct-mongo-plugin
+.. |pypi| image:: https://img.shields.io/pypi/v/dserver-notification-plugin
     :target: https://pypi.org/project/dserver-direct-mongo-plugin/
-.. image:: https://img.shields.io/github/v/tag/livMatS/dserver-direct-mongo-plugin
-    :alt: GitHub tag (latest by date)
+.. |tag| image:: https://img.shields.io/github/v/tag/livMatS/dserver-direct-mongo-plugin
     :target: https://github.com/livMatS/dserver-direct-mongo-plugin/tags
-    
+.. |test| image:: https://img.shields.io/github/actions/workflow/status/livMatS/dserver-direct-mongo-plugin/test.yml?branch=main&label=tests
+    :target: https://github.com/livMatS/dserver-direct-mongo-plugin/actions/workflows/test.yml
+
+|dtool| |pypi| |tag| |test|
+
 - GitHub: https://github.com/livMatS/dserver-direct-mongo-plugin
 - PyPI: https://pypi.org/project/dserver-direct-mongo-plugin/
 - Free software: MIT License
