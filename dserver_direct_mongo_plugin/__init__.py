@@ -11,7 +11,7 @@ except PackageNotFoundError:
 
 import pymongo
 import dtoolcore.utils as core_utils
-import dtool_lookup_server.utils as server_utils
+import dservercore.utils as server_utils
 
 from flask import (
     abort,
@@ -30,10 +30,10 @@ from flask_smorest.pagination import PaginationParameters
 
 from pymongo import MongoClient
 
-from dtool_lookup_server import ExtensionABC, ValidationError
+from dservercore import ExtensionABC, ValidationError
 
-from dtool_lookup_server import AuthenticationError
-from dtool_lookup_server.sql_models import DatasetSchema
+from dservercore import AuthenticationError
+from dservercore.sql_models import DatasetSchema
 
 from .config import Config, CONFIG_SECRETS_TO_OBFUSCATE
 from .schemas import QueryDatasetSchema
@@ -96,7 +96,7 @@ def aggregate_datasets(
 def query_datasets_by_user(username, query):
     """Query the datasets the user has access to. Allow raw mongo 'query'.
 
-    See dtool_lookup_server.utils.search_datasets_by_user docstring.
+    See dservercore.utils.search_datasets_by_user docstring.
 
     :param username: username
     :param query: dictionary specifying query

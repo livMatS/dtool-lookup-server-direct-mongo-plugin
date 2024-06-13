@@ -36,7 +36,7 @@ However, if one has to manage more than a hundred datasets it can be helpful
 to have the datasets' metadata stored in a central server to enable one to
 quickly find datasets of interest.
 
-The `dtool-lookup-server <https://github.com/jic-dtool/dtool-lookup-server>`_
+The `dservercore <https://github.com/jic-dtool/dservercore>`_
 provides a web API for registering datasets' metadata
 and provides functionality to lookup, list and search for datasets.
 
@@ -85,7 +85,7 @@ token and the header used in the following ``curl`` command samples
     $ TOKEN=$(flask user token test-user)
     $ HEADER="Authorization: Bearer $TOKEN"
 
-Refer to the core dcumentation of `dtool-lookup-server <https://github.com/jic-dtool/dtool-lookup-server>`_ for more information.
+Refer to the core dcumentation of `dservercore <https://github.com/jic-dtool/dservercore>`_ for more information.
 
 Direct query
 ------------
@@ -222,5 +222,5 @@ Testing
 Running unit tests with ``pytest`` requires a healthy lookup server installation
 and the availability of required services such as databases. Please refer to
 the core
-`dtool-lookup-server <https://github.com/jic-dtool/dtool-lookup-server>`_
+`dservercore <https://github.com/jic-dtool/dservercore>`_
 for setup instructions.

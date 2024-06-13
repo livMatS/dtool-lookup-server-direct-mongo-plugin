@@ -13,12 +13,12 @@ authors = [
 dynamic = ["version"]
 dependencies = [
         "dtoolcore>=3.18.0",
-        "dtool-lookup-server>0.18.0",
+        "dservercore>0.18.0",
     ]
 
 [project.optional-dependencies]
 test = [
-    "dtool-lookup-server",
+    "dservercore",
     "dserver-retrieve-plugin-mongo",
     "dserver-search-plugin-mongo",
     "pytest",
@@ -38,5 +38,5 @@ write_to = "dserver_direct_mongo_plugin/version.py"
 [tool.setuptools]
 packages = ["dserver_direct_mongo_plugin"]
 
-[project.entry-points."dtool_lookup_server.extension"]
+[project.entry-points."dservercore.extension"]
 "DirectMongoExtension" = "dserver_direct_mongo_plugin:DirectMongoExtension"
