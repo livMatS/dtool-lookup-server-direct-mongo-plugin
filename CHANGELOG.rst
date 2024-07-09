@@ -4,6 +4,14 @@ CHANGELOG
 This project uses `semantic versioning <http://semver.org/>`_.
 This change log uses principles from `keep a changelog <http://keepachangelog.com/>`_.
 
+[0.4.1]
+-------
+
+Added
+^^^^^
+
+- automated gitub release creation
+
 [0.4.0]
 -------
 
