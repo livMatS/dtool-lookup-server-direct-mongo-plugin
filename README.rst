@@ -10,8 +10,10 @@ dserver Direct Mongo Plugin
     :target: https://github.com/livMatS/dserver-direct-mongo-plugin/tags
 .. |test| image:: https://img.shields.io/github/actions/workflow/status/livMatS/dserver-direct-mongo-plugin/test.yml?branch=main&label=tests
     :target: https://github.com/livMatS/dserver-direct-mongo-plugin/actions/workflows/test.yml
+.. |zenodo| image:: https://zenodo.org/badge/DOI/10.5281/zenodo.12701908.svg
+    :target: https://doi.org/10.5281/zenodo.12701908
 
-|dtool| |pypi| |tag| |test|
+|dtool| |pypi| |tag| |test| |zenodo|
 
 - GitHub: https://github.com/livMatS/dserver-direct-mongo-plugin
 - PyPI: https://pypi.org/project/dserver-direct-mongo-plugin/
